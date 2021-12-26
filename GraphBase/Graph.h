@@ -102,6 +102,7 @@ public:
 
     ID getVertexId(const VertT& data);
     Vertex& getVertexById(ID id);
+    LinkedList<Vertex> getAdjacencyList();
 
 };
 

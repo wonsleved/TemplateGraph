@@ -3,6 +3,12 @@ Graph<VertT, EdgeT>::
 Graph(const GraphT &graph) {
     adjacencyList = graph.adjacencyList;
 }
+template <typename VertT, typename EdgeT>
+LinkedList<typename Graph<VertT, EdgeT>::Vertex>
+Graph<VertT, EdgeT>::
+getAdjacencyList() {
+    return adjacencyList;
+}
 
 template <typename VertT, typename EdgeT>
 Graph<VertT, EdgeT>&
@@ -50,12 +56,12 @@ template <typename VertT, typename EdgeT>
 typename Graph<VertT, EdgeT>::Vertex&
 Graph<VertT, EdgeT>::
 getVertexById(ID id) {
-    Vertex* vert;
+    Vertex* vert = nullptr;
     for (auto& item : adjacencyList)
         if (item.id == id)
             vert = &item;
 
-    if (id == -1)
+    if (!vert)
         throw std::runtime_error("No item with this id!");
 
     return *vert;

@@ -7,22 +7,34 @@
 
 int main() {
 try {
-    Graph<int, int> graph;
+    Graph<std::string, int> graph;
 
-    graph.addVertex(1).addVertex(2).addVertex(3).addVertex(4).addVertex(5).addVertex(6);
-    graph.addEdge(1, 4, 111);
-    graph.addEdge(1, 5, 111);
-    graph.addEdge(1, 6, 111);
-    graph.addEdge(1, 2, 111);
-    graph.addEdge(2, 3, 111);
+    graph.addVertex("one").addVertex("two").addVertex("three").addVertex("four").addVertex("five").addVertex("six").addVertex("seven").addVertex("eight");
+    graph.addEdge("one", "two", 111);
+    graph.addEdge("two", "three", 111);
+    graph.addEdge("three", "four", 111);
+    graph.addEdge("three", "six", 111);
+    graph.addEdge("three", "seven", 111);
+    graph.addEdge("three", "eight", 111);
+    graph.addEdge("eight", "five", 111);
+    graph.addEdge("one", "five", 111111);
 
 
-    int a = 1, b = 3;
+    std::string a = "one", b = "five";
 
     bool ok = bfs(graph, a, b);
 
-    std::cout << ok;
+    std::vector<std::string> path;
 
+    int dis = dijkstra(graph, a, b, path);
+
+    printPath<std::string>(path);
+
+    std::cout << std::endl;
+    std::cout << dis;
+
+
+    std::map<int, int> sptSet;
 
 
 
