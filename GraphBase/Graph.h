@@ -35,6 +35,7 @@ private:
     };
 
     struct Vertex {
+        Vertex() = default;
         ID id;
         VertT data;
         LinkedList<Edge> connections;
@@ -44,7 +45,7 @@ private:
             connections = other.connections;
             return *this;
         }
-        bool operator == (const Vertex& other) const {
+        bool operator == (Vertex& other) const {
             return data == other.data &&
                     id == other.id;
         }
@@ -52,7 +53,7 @@ private:
         friend std::ostream& operator<< (std::ostream &out, const Vertex& vertex) {
             out << "[ ";
             out << "id: " << vertex.id << "; ";
-            out << "data: " << vertex.data << "; ";
+            out << "data: " << (vertex.data) << "; ";
             out << "connections: " << vertex.connections;
             out << " ]";
             return out;
@@ -93,18 +94,16 @@ public:
     Graph& operator = (const GraphT& other);
     bool operator == (const GraphT& other) const;
 
-    friend std::ostream& operator<< (std::ostream &out, GraphT& graph) {
+    friend std::ostream& operator << (std::ostream &out, GraphT& graph) {
         for (auto& item : graph.adjacencyList)
             out << item << "\n";
         return out;
     }
 
-private:
     ID getVertexId(const VertT& data);
     Vertex& getVertexById(ID id);
 
 };
-
 
 
 #include "Graph.inl"

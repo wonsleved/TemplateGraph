@@ -117,6 +117,7 @@ public:
     LinkedList<T>* map(T (*function)(const T& item)) const;
     LinkedList<T>* filter(bool (*function)(const T& item)) const;
 
+    bool operator == (const LinkedList<T>& list) const;
 };
 
 

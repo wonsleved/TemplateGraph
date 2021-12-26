@@ -325,5 +325,29 @@ std::ostream& operator<< (std::ostream &out, const LinkedList<T>& list) {
     if (list.getSize() > 0)
         out << list.getItem(list.getSize() - 1);
     out << "}";
+
     return out;
+}
+template <typename T>
+bool LinkedList<T>::operator == (const LinkedList<T>& list) const {
+    bool areEqual = true;
+
+    m_Element* l1 = m_head;
+    m_Element* l2 = list.m_head;
+
+    if (m_size != list.getSize()) {
+        areEqual = false;
+    } else {
+        for (int i = 0; i < m_size; ++i) {
+            if (l1->data != l2->data) {
+                areEqual = false;
+                break;
+            }
+
+            l1 = l1->next;
+            l2 = l2->next;
+        }
+    }
+
+    return areEqual;
 }

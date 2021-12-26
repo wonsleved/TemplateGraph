@@ -5,7 +5,7 @@
 
 typedef uint64_t ID;
 
-ID getNewId() {
+ID static getNewId() {
     static ID id = 0;
     return id++;
 }

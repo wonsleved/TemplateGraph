@@ -276,3 +276,12 @@ Graph<VertT, EdgeT>::
 operator == (const GraphT& other) const {
     return adjacencyList == other.adjacencyList;
 }
+
+
+//template <typename U, typename V>
+//std::ostream& operator << (std::ostream &out, GraphBase<U, V> graph) {
+//    for (auto& item : graph.adjacencyList)
+//        out << item << "\n";
+//    return out;
+//}
+

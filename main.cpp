@@ -1,33 +1,56 @@
 #include <iostream>
 
-#include "Graph/Graph.h"
+#include "GraphBase/Graph.h"
 
+#include "CoordinateGraph/CoordinateGrpah.h"
+#include "GraphBase/Functions/GraphFunctions.h"
 
 int main() {
-
-//    LinkedList<std::string> list;
-//
-//    list.append("kek");
-//    list.append("lol");
-//
-//    for (const auto& i : list)
-//        std::cout << i << std::endl;
 try {
     Graph<int, int> graph;
 
-    graph.getVertexCount();
+    graph.addVertex(1).addVertex(2).addVertex(3).addVertex(4).addVertex(5).addVertex(6);
+    graph.addEdge(1, 4, 111);
+    graph.addEdge(1, 5, 111);
+    graph.addEdge(1, 6, 111);
+    graph.addEdge(1, 2, 111);
+    graph.addEdge(2, 3, 111);
 
-    graph.addVertex(2).addVertex(3).addVertex(4);
-    graph.addEdge(2, 3, 10);
-    graph.addEdge(3, 4, 10);
-    graph.addEdge(4, 3, 10);
-    graph.addEdge(4, 2, 11);
 
-    std::cout << graph << std::endl;
+    int a = 1, b = 3;
 
-    graph.removeVertex(4);
+    bool ok = bfs(graph, a, b);
 
-    std::cout << graph;
+    std::cout << ok;
+
+
+
+
+
+
+
+
+
+
+
+
+
+//    CoordinateGraph graph;
+//
+//    Point one(1, 34);
+//    Point two(22, 7);
+//    Point three(33, 3);
+//
+//    graph.addPoint(one).addPoint(two).addPoint(three).addPoint(Point(1, 11));
+//    graph.connectPoints(one, two);
+//    graph.connectPoints(two, three);
+//    graph.connectPoints(three, two);
+//    graph.connectPoints(three, one);
+//
+//    std::cout << graph << std::endl;
+//    graph.removePoint(three);
+//
+//    std::cout << graph;
 
 
 
