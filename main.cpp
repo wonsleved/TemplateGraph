@@ -1,15 +1,15 @@
 #include <iostream>
 
-#include "Base/LinkedList/LinkedList.h"
-
 #include "Graph/Graph.h"
 
 
 int main() {
-    for (int i = 0; i < 10; ++i ) {
-        getNewId();
-    }
 
-    std::cout << getNewId();
+    Graph<int, int> graph;
+
+    graph.addVertex(2).addVertex(5).addVertex(3);
+
+    graph.containsVertex(2);
+
     return 0;
 }

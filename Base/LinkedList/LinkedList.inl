@@ -220,6 +220,19 @@ LinkedList<T>& LinkedList<T>::remove(int index) {
     m_size--;
     return *this;
 }
+template <typename T>
+LinkedList<T>&
+LinkedList<T>::
+removeItem(T& item) {
+    int index = -1;
+    iterator& it = begin();
+    for (int i = 0; i < m_size; ++i)
+        if (*(*(it + i)) == item)
+            index = i;
+
+    remove(index);
+    return *this;
+}
 
 template <typename T>
 LinkedList<T>* LinkedList<T>::concat(const LinkedList<T>& list) const {

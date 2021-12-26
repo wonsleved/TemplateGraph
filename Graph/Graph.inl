@@ -1,12 +1,12 @@
-template <typename EdgeT, typename VertT>
-Graph<EdgeT, VertT>::
+template <typename VertT, typename EdgeT>
+Graph<VertT, EdgeT>::
 Graph(const GraphT &graph) {
     adjacencyList = graph.adjacencyList;
 }
 
-template <typename EdgeT, typename VertT>
-Graph<EdgeT, VertT>&
-Graph<EdgeT, VertT>::
+template <typename VertT, typename EdgeT>
+Graph<VertT, EdgeT>&
+Graph<VertT, EdgeT>::
 addVertex(const VertT& data) {
     if (containsVertex(data))
         throw std::runtime_error("Vertex already exists");
@@ -21,16 +21,16 @@ addVertex(const VertT& data) {
     return *this;
 }
 
-template <typename EdgeT, typename VertT>
-Graph<EdgeT, VertT>&
-Graph<EdgeT, VertT>::
+template <typename VertT, typename EdgeT>
+Graph<VertT, EdgeT>&
+Graph<VertT, EdgeT>::
 addVertex(const VertT&& data) {
     return addVertex(data);
 }
 
-template <typename EdgeT, typename VertT>
+template <typename VertT, typename EdgeT>
 ID
-Graph<EdgeT, VertT>::
+Graph<VertT, EdgeT>::
 getVertexId(const VertT& data) {
     ID id = -1;
     for (auto item : adjacencyList)
@@ -43,9 +43,9 @@ getVertexId(const VertT& data) {
     return id;
 }
 
-template <typename EdgeT, typename VertT>
-typename Graph<EdgeT, VertT>::Vertex&
-Graph<EdgeT, VertT>::
+template <typename VertT, typename EdgeT>
+typename Graph<VertT, EdgeT>::Vertex&
+Graph<VertT, EdgeT>::
 getVertexById(ID id) {
     Vertex* vert;
     for (auto item : adjacencyList)
@@ -58,9 +58,9 @@ getVertexById(ID id) {
     return *vert;
 }
 
-template <typename EdgeT, typename VertT>
-Graph<EdgeT, VertT>&
-Graph<EdgeT, VertT>::
+template <typename VertT, typename EdgeT>
+Graph<VertT, EdgeT>&
+Graph<VertT, EdgeT>::
 addEdge(const VertT &from, const VertT &to, const EdgeT &data) try {
     ID idFrom = getVertexId(from);
     ID idTo = getVertexId(to);
@@ -88,18 +88,18 @@ addEdge(const VertT &from, const VertT &to, const EdgeT &data) try {
     throw exception;
 }
 
-template <typename EdgeT, typename VertT>
-Graph<EdgeT, VertT>&
-Graph<EdgeT, VertT>::
+template <typename VertT, typename EdgeT>
+Graph<VertT, EdgeT>&
+Graph<VertT, EdgeT>::
 addEdge(const VertT& from, const VertT& to, const EdgeT&& data) try {
     return addEdge(from, to, data);
 } catch (std::exception& exception) {
     throw exception;
 }
 
-template <typename EdgeT, typename VertT>
+template <typename VertT, typename EdgeT>
 bool
-Graph<EdgeT, VertT>::
+Graph<VertT, EdgeT>::
 containsVertex(const VertT& data) {
     bool doContains = false;
 
@@ -112,10 +112,10 @@ containsVertex(const VertT& data) {
     return doContains;
 }
 
-template <typename EdgeT, typename VertT>
+template <typename VertT, typename EdgeT>
 bool
-Graph<EdgeT, VertT>::
-existsEdge(const VertT& from, const VertT& to) try {
+Graph<VertT, EdgeT>::
+containsEdge(const VertT& from, const VertT& to) try {
     ID idFrom = getVertexId(from);
     ID idTo = getVertexId(to);
 
@@ -133,4 +133,132 @@ existsEdge(const VertT& from, const VertT& to) try {
 
 } catch(std::exception& exception) {
     throw exception;
+}
+
+template <typename VertT, typename EdgeT>
+EdgeT
+Graph<VertT, EdgeT>::
+getEdgeData(const VertT& from, const VertT& to) try {
+    ID idFrom = getVertexId(from);
+    ID idTo = getVertexId(to);
+
+    Vertex& vertex = getVertexById(idFrom);
+
+    EdgeT* pData;
+    bool exists = false;
+
+    for (Edge& edge : vertex.connections)
+        if (edge.orientedTo == idTo) {
+            pData = &edge.data;
+            exists = true;
+            break;
+        }
+
+    if (!exists)
+        throw std::runtime_error("Edge doesn't exist!");
+
+    return *pData;
+} catch(std::exception& exception) {
+    throw exception;
+}
+template <typename VertT, typename EdgeT>
+Graph<VertT, EdgeT>&
+Graph<VertT, EdgeT>::
+removeEdge(const VertT& from, const VertT& to) try {
+    ID idFrom = getVertexId(from);
+    ID idTo = getVertexId(to);
+
+    Vertex& vertex = getVertexById(idFrom);
+
+    bool exists = false;
+
+    for (Edge& edge : vertex.connections)
+        if (edge.orientedTo == idTo) {
+            vertex.connections.removeItem(edge);
+            exists = true;
+            break;
+        }
+
+    if (!exists)
+        throw std::runtime_error("Edge doesn't exist!");
+
+    return *this;
+
+} catch(std::exception& exception) {
+    throw exception;
+}
+
+template <typename VertT, typename EdgeT>
+Graph<VertT, EdgeT>&
+Graph<VertT, EdgeT>::
+removeVertex(const VertT& data) try {
+    ID vertexId = getVertexId(data);
+    Vertex& vertex = getVertexById(vertexId);
+
+    for (Vertex& vert : adjacencyList)
+        if (containsEdge(vert.id, vertexId))
+            removeEdge(vert.id, vertexId);
+
+    adjacencyList.removeItem(vertex);
+
+    return *this;
+
+} catch (std::exception& exception) {
+    throw exception;
+}
+
+template <typename VertT, typename EdgeT>
+Graph<VertT, EdgeT>&
+Graph<VertT, EdgeT>::
+removeVertex(const VertT&& data) try {
+    return removeVertex(data);
+} catch (std::exception& exception) {
+    throw exception;
+}
+
+template <typename VertT, typename EdgeT>
+int
+Graph<VertT, EdgeT>::
+getVertexCount() {
+    return adjacencyList.getSize();
+}
+
+template <typename VertT, typename EdgeT>
+int
+Graph<VertT, EdgeT>::
+getEdgeCount(const VertT& data) try {
+    ID id = getVertexId(data);
+    Vertex& vertex = getVertexById(id);
+
+    return vertex.connections.getSize();
+
+} catch (std::exception& exception) {
+    throw exception;
+}
+
+template <typename VertT, typename EdgeT>
+int
+Graph<VertT, EdgeT>::
+getEdgeCount(const VertT&& data) try {
+    return getEdgeCount(data);
+} catch (std::exception& exception) {
+    throw exception;
+}
+
+template <typename VertT, typename EdgeT>
+Graph<VertT, EdgeT>&
+Graph<VertT, EdgeT>::
+operator = (const GraphT& other) {
+    if (*this == other)
+        return *this;
+
+    adjacencyList = other.adjacencyList;
+    return *this;
+}
+
+template <typename VertT, typename EdgeT>
+bool
+Graph<VertT, EdgeT>::
+operator == (const GraphT& other) const {
+    return adjacencyList == other.adjacencyList;
 }

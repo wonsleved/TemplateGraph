@@ -62,10 +62,10 @@ public:
         };
 
 
-        bool operator == (const iterator& iterator)
+        bool operator == (const iterator& iterator) const
         { return m_ptr == iterator.m_ptr; };
 
-        bool operator != (const iterator& iterator)
+        bool operator != (const iterator& iterator) const
         { return m_ptr != iterator.m_ptr; };
 
         bool operator < (const iterator& iterator) const
@@ -110,6 +110,7 @@ public:
     LinkedList<T>& append(const T& item);
     LinkedList<T>& prepend(const T& item);
     LinkedList<T>& remove(int index);
+    LinkedList<T>& removeItem(T& item);
     LinkedList<T>& insert(int index, const T& item);
     LinkedList<T>* concat(const LinkedList<T>& list) const;
     LinkedList<T>* getSubList(int startIndex, int endIndex) const;
