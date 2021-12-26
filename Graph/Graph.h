@@ -18,6 +18,20 @@ private:
             data = other.data;
             return *this;
         }
+
+        friend std::ostream& operator<< (std::ostream &out, const Edge& edge) {
+            out << "[ ";
+
+            out << "id: " << edge.orientedTo << "; ";
+            out << "data: " << edge.data;
+
+            out << " ]";
+            return out;
+        }
+
+        bool operator == (const Edge& other) const {
+            return data == other.data && orientedTo == other.orientedTo;
+        }
     };
 
     struct Vertex {
@@ -29,6 +43,19 @@ private:
             data = other.data;
             connections = other.connections;
             return *this;
+        }
+        bool operator == (const Vertex& other) const {
+            return data == other.data &&
+                    id == other.id;
+        }
+
+        friend std::ostream& operator<< (std::ostream &out, const Vertex& vertex) {
+            out << "[ ";
+            out << "id: " << vertex.id << "; ";
+            out << "data: " << vertex.data << "; ";
+            out << "connections: " << vertex.connections;
+            out << " ]";
+            return out;
         }
     };
 
@@ -65,6 +92,12 @@ public:
 
     Graph& operator = (const GraphT& other);
     bool operator == (const GraphT& other) const;
+
+    friend std::ostream& operator<< (std::ostream &out, GraphT& graph) {
+        for (auto& item : graph.adjacencyList)
+            out << item << "\n";
+        return out;
+    }
 
 private:
     ID getVertexId(const VertT& data);

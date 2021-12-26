@@ -5,7 +5,10 @@ typename LinkedList<T>::iterator LinkedList<T>::begin() {
 
 template <typename T>
 typename LinkedList<T>::iterator LinkedList<T>::end() {
-    return iterator(m_tail->next);
+    if (m_tail)
+        return iterator(m_tail->next);
+    else
+        return iterator(0);
 }
 
 
@@ -13,12 +16,12 @@ template <typename T>
 LinkedList<T>::LinkedList() : m_size(0), m_tail(nullptr), m_head(nullptr) {
 }
 
-template <typename T>
-LinkedList<T>::LinkedList(int size) : LinkedList() {
-    if (size < 0) throw (Exceptions(ExceptionConsts::INVALID_SIZE));
-    for (int i = 0; i < size; i++)
-        append(NULL);
-}
+//template <typename T>
+//LinkedList<T>::LinkedList(int size) : LinkedList() {
+//    if (size < 0) throw (Exceptions(ExceptionConsts::INVALID_SIZE));
+//    for (int i = 0; i < size; i++)
+//        append(NULL);
+//}
 
 template <typename T>
 LinkedList<T>::LinkedList(T* items, int size) : LinkedList() {
@@ -117,7 +120,7 @@ LinkedList<T>& LinkedList<T>::append(const T& item) { // tail->prev = nullptr
         newOne->next = new m_Element;
         newOne->next->prev = newOne;
         newOne->next->next = nullptr;
-        newOne->next->data = NULL;
+        newOne->next->data = item;
     }
 
     if (m_size > 0)
@@ -225,9 +228,9 @@ LinkedList<T>&
 LinkedList<T>::
 removeItem(T& item) {
     int index = -1;
-    iterator& it = begin();
+    iterator it = begin();
     for (int i = 0; i < m_size; ++i)
-        if (*(*(it + i)) == item)
+        if (*(it + i) == item)
             index = i;
 
     remove(index);
@@ -315,12 +318,12 @@ LinkedList<T>* LinkedList<T>::filter(bool (*function)(const T& item)) const {
 
 template <typename T>
 std::ostream& operator<< (std::ostream &out, const LinkedList<T>& list) {
-    out << "<";
+    out << "{";
     for (int i = 0; i < list.getSize() - 1; i++) {
         out << list.getItem(i) << ", ";
     }
     if (list.getSize() > 0)
         out << list.getItem(list.getSize() - 1);
-    out << ">";
+    out << "}";
     return out;
 }

@@ -13,9 +13,12 @@ addVertex(const VertT& data) {
 
     ID id = getNewId();
 
+
+
     Vertex vertex;
     vertex.data = data;
     vertex.id = id;
+    vertex.connections = LinkedList<Edge>();
 
     adjacencyList.append(vertex);
     return *this;
@@ -34,7 +37,7 @@ Graph<VertT, EdgeT>::
 getVertexId(const VertT& data) {
     ID id = -1;
     for (auto item : adjacencyList)
-        if (item == data)
+        if (item.data == data)
             id = item.id;
 
     if (id == -1)
@@ -48,7 +51,7 @@ typename Graph<VertT, EdgeT>::Vertex&
 Graph<VertT, EdgeT>::
 getVertexById(ID id) {
     Vertex* vert;
-    for (auto item : adjacencyList)
+    for (auto& item : adjacencyList)
         if (item.id == id)
             vert = &item;
 
@@ -69,16 +72,15 @@ addEdge(const VertT &from, const VertT &to, const EdgeT &data) try {
 
     bool alreadyExists = false;
 
-    for (EdgeT& i : vertex.connections)
-        if (i.orientedTo == idTo) {
+    for (Edge& item : vertex.connections)
+        if (item.orientedTo == idTo) {
             alreadyExists = true;
-            i.data = data;
+            item.data = data;
             break;
         }
 
     if (!alreadyExists) {
-        Edge edge {idTo, data};
-
+        Edge edge = {data, idTo};
         vertex.connections.append(edge);
     }
 
@@ -101,13 +103,16 @@ template <typename VertT, typename EdgeT>
 bool
 Graph<VertT, EdgeT>::
 containsVertex(const VertT& data) {
+
+
     bool doContains = false;
 
-    for (Vertex& vert : adjacencyList)
+    for (const Vertex& vert : adjacencyList) {
         if (vert.data == data) {
             doContains = true;
             break;
         }
+    }
 
     return doContains;
 }
@@ -123,11 +128,14 @@ containsEdge(const VertT& from, const VertT& to) try {
 
     Vertex& vertex = getVertexById(idFrom);
 
-    for (Edge& edge : vertex.connections)
+    LinkedList<Edge>& edges = vertex.connections;
+
+    for (Edge& edge : edges) {
         if (edge.orientedTo == idTo) {
             exists = true;
             break;
         }
+    }
 
     return exists;
 
@@ -168,11 +176,14 @@ removeEdge(const VertT& from, const VertT& to) try {
     ID idFrom = getVertexId(from);
     ID idTo = getVertexId(to);
 
+
     Vertex& vertex = getVertexById(idFrom);
 
     bool exists = false;
 
-    for (Edge& edge : vertex.connections)
+    LinkedList<Edge>& edges = vertex.connections;
+
+    for (Edge& edge : edges)
         if (edge.orientedTo == idTo) {
             vertex.connections.removeItem(edge);
             exists = true;
@@ -195,9 +206,12 @@ removeVertex(const VertT& data) try {
     ID vertexId = getVertexId(data);
     Vertex& vertex = getVertexById(vertexId);
 
-    for (Vertex& vert : adjacencyList)
-        if (containsEdge(vert.id, vertexId))
-            removeEdge(vert.id, vertexId);
+    for (Vertex& vert : adjacencyList) {
+        if (containsEdge(vert.data, vertex.data))
+            removeEdge(vert.data, vertex.data);
+    }
+
+
 
     adjacencyList.removeItem(vertex);
 

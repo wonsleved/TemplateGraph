@@ -32,10 +32,10 @@ public:
 
         reference   operator * () const { return m_ptr->data; };
         pointer     operator -> () { return &(m_ptr->data); };
-        iterator&   operator ++ () { m_ptr = m_ptr->next; return *this; };
-        iterator    operator ++ (int) { iterator tmp = *this; m_ptr = m_ptr->next; return tmp; };
-        iterator&   operator -- () { m_ptr = m_ptr->prev; return *this; };
-        iterator    operator -- (int) { iterator tmp = *this; m_ptr = m_ptr->prev; return tmp; };
+        iterator&   operator ++ () { if (m_ptr) m_ptr = m_ptr->next; return *this; };
+        iterator    operator ++ (int) { iterator tmp = *this; if (m_ptr) m_ptr = m_ptr->next; return tmp; };
+        iterator&   operator -- () { if (m_ptr) m_ptr = m_ptr->prev; return *this; };
+        iterator    operator -- (int) { iterator tmp = *this; if (m_ptr) m_ptr = m_ptr->prev; return tmp; };
 
         iterator operator + (size_t offset)
         { iterator tmp(m_ptr); while(offset--) ++tmp; return tmp; };
@@ -89,7 +89,7 @@ public:
     iterator end();
 
     explicit LinkedList();
-    explicit LinkedList(int size);
+//    explicit LinkedList(int size);
     explicit LinkedList(T* items, int size);
     LinkedList(const LinkedList<T>& another);
 
