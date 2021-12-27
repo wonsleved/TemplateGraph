@@ -5,9 +5,11 @@
 #include "../Service/GraphService.h"
 #include "../MenuFW/MenuFW.h"
 #include "../Random/Random.h"
+#include "../Tests/Tests.h"
 
 
 void mainMenu();
+void testing();
 
 void customMenu(Menu& mainMenu, std::vector<void*>& memory);
 

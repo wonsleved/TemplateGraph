@@ -13,6 +13,7 @@ void mainMenu() {
     std::vector<void*> memory;
     Menu menu;
     customMenu(menu, memory);
+
     menu.displayMenu();
     menu.chooseOption(false);
 
@@ -22,8 +23,17 @@ void mainMenu() {
 void customMenu(Menu& mainMenu, std::vector<void*>& memory) {
     Menu& customMenu = mainMenu.createContextMenu("Custom");
     Menu& randomMenu = mainMenu.createContextMenu("Random");
+    mainMenu.addOption("Tests", [](){
+        testing();
+    });
     dataTypeCustomMenu(customMenu, memory);
     dataTypeRandomMenu(randomMenu, memory);
+}
+
+void testing() {
+    std::cout << "Enter amount of tests: ";
+    int amount = getInteger(0);
+    mainTest(amount);
 }
 
 
