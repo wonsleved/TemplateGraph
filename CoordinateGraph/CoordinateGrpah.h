@@ -39,9 +39,11 @@ public:
 
     friend std::ostream& operator << (std::ostream &out, CoordinateGraph& cGraph);
 
-private:
+    explicit operator Graph<Point, double>&() {
+        return graph;
+    }
 
-    double calculateDistance(const Point& point1, const Point& point2);
+    static double calculateDistance(const Point& point1, const Point& point2);
 
 };
 

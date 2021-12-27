@@ -100,8 +100,6 @@ Menu& Menu::createContextMenu(const std::string& description) {
 Menu& Menu::createContextMenu(const std::string& description, bool doDisplayMenu) {
     Menu* contextMenu = new Menu(this);
 
-    std::cout << description << " " << contextMenu << std::endl;
-
     contextMenus.push_back(contextMenu);
 
     addOption(description, [contextMenu, doDisplayMenu](){

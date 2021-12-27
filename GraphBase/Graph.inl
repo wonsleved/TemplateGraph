@@ -70,7 +70,7 @@ getVertexById(ID id) {
 template <typename VertT, typename EdgeT>
 Graph<VertT, EdgeT>&
 Graph<VertT, EdgeT>::
-addEdge(const VertT &from, const VertT &to, const EdgeT &data) try {
+addEdge(const VertT &from, const VertT &to, const EdgeT &data) {
     ID idFrom = getVertexId(from);
     ID idTo = getVertexId(to);
 
@@ -92,17 +92,13 @@ addEdge(const VertT &from, const VertT &to, const EdgeT &data) try {
 
     return *this;
 
-} catch (std::exception& exception) {
-    throw exception;
 }
 
 template <typename VertT, typename EdgeT>
 Graph<VertT, EdgeT>&
 Graph<VertT, EdgeT>::
-addEdge(const VertT& from, const VertT& to, const EdgeT&& data) try {
+addEdge(const VertT& from, const VertT& to, const EdgeT&& data) {
     return addEdge(from, to, data);
-} catch (std::exception& exception) {
-    throw exception;
 }
 
 template <typename VertT, typename EdgeT>
@@ -126,7 +122,7 @@ containsVertex(const VertT& data) {
 template <typename VertT, typename EdgeT>
 bool
 Graph<VertT, EdgeT>::
-containsEdge(const VertT& from, const VertT& to) try {
+containsEdge(const VertT& from, const VertT& to) {
     ID idFrom = getVertexId(from);
     ID idTo = getVertexId(to);
 
@@ -145,14 +141,12 @@ containsEdge(const VertT& from, const VertT& to) try {
 
     return exists;
 
-} catch(std::exception& exception) {
-    throw exception;
 }
 
 template <typename VertT, typename EdgeT>
 EdgeT
 Graph<VertT, EdgeT>::
-getEdgeData(const VertT& from, const VertT& to) try {
+getEdgeData(const VertT& from, const VertT& to) {
     ID idFrom = getVertexId(from);
     ID idTo = getVertexId(to);
 
@@ -172,13 +166,12 @@ getEdgeData(const VertT& from, const VertT& to) try {
         throw std::runtime_error("Edge doesn't exist!");
 
     return *pData;
-} catch(std::exception& exception) {
-    throw exception;
 }
+
 template <typename VertT, typename EdgeT>
 Graph<VertT, EdgeT>&
 Graph<VertT, EdgeT>::
-removeEdge(const VertT& from, const VertT& to) try {
+removeEdge(const VertT& from, const VertT& to) {
     ID idFrom = getVertexId(from);
     ID idTo = getVertexId(to);
 
@@ -201,14 +194,12 @@ removeEdge(const VertT& from, const VertT& to) try {
 
     return *this;
 
-} catch(std::exception& exception) {
-    throw exception;
 }
 
 template <typename VertT, typename EdgeT>
 Graph<VertT, EdgeT>&
 Graph<VertT, EdgeT>::
-removeVertex(const VertT& data) try {
+removeVertex(const VertT& data) {
     ID vertexId = getVertexId(data);
     Vertex& vertex = getVertexById(vertexId);
 
@@ -223,17 +214,13 @@ removeVertex(const VertT& data) try {
 
     return *this;
 
-} catch (std::exception& exception) {
-    throw exception;
 }
 
 template <typename VertT, typename EdgeT>
 Graph<VertT, EdgeT>&
 Graph<VertT, EdgeT>::
-removeVertex(const VertT&& data) try {
+removeVertex(const VertT&& data) {
     return removeVertex(data);
-} catch (std::exception& exception) {
-    throw exception;
 }
 
 template <typename VertT, typename EdgeT>
@@ -246,23 +233,19 @@ getVertexCount() {
 template <typename VertT, typename EdgeT>
 int
 Graph<VertT, EdgeT>::
-getEdgeCount(const VertT& data) try {
+getEdgeCount(const VertT& data) {
     ID id = getVertexId(data);
     Vertex& vertex = getVertexById(id);
 
     return vertex.connections.getSize();
 
-} catch (std::exception& exception) {
-    throw exception;
 }
 
 template <typename VertT, typename EdgeT>
 int
 Graph<VertT, EdgeT>::
-getEdgeCount(const VertT&& data) try {
+getEdgeCount(const VertT&& data) {
     return getEdgeCount(data);
-} catch (std::exception& exception) {
-    throw exception;
 }
 
 template <typename VertT, typename EdgeT>
