@@ -10,6 +10,7 @@ private:
 public:
     CoordinateGraph() = default;
     CoordinateGraph(const CoordinateGraph& cGraph);
+    explicit CoordinateGraph(const Graph<Point, double>& graphP);
 
     int getPointsCount();
     int getConnectionsCount(const Point& point);

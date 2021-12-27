@@ -1,10 +1,11 @@
 #include "CoordinateGrpah.h"
 
-
-
-
 CoordinateGraph::CoordinateGraph(const CoordinateGraph& cGraph) {
     graph = cGraph.graph;
+}
+
+CoordinateGraph::CoordinateGraph(const Graph<Point, double>& graphP) {
+    graph = graphP;
 }
 
 int CoordinateGraph::getPointsCount() {
